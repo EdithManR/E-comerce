@@ -3,7 +3,10 @@ import ProductList from "../ProductList/ProductList";
 
 const Home = () => {
   return(
-    <ProductList/>
+    <>
+      <ProductList/>
+    </>
+    
   );
 }
 

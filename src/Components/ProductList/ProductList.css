@@ -4,6 +4,7 @@
   padding: 1rem;
   flex-wrap:wrap;
 }
+
 /*Filtro*/
 .filter-category{
   padding:1rem;
@@ -47,4 +48,133 @@ input[type="checkbox"]{
 }
 .filters label span{
   margin-left:10px;
+}
+
+/*Estilos de colecciones*/
+.collections{
+  flex:1;
+}
+.collections h2{
+  font-size:20px;
+  margin-bottom: 1rem;
+}
+.options{
+  display:flex;
+  justify-content:space-between;
+}
+.sort-options{
+  display:flex;
+  font-size: 14px;
+  justify-content: flex-end;
+}
+.sort-options label{
+  margin-bottom: 1rem !important;
+}
+.sort-options select {
+  font-family: "Popins", sans-serif;
+  padding: 0.5rem;
+  border:1px solid #ddd;
+  margin: 10px 0px;
+}
+/*Productos*/
+.products{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap:1rem;
+}
+.product-card{
+  text-align: center;
+  background-color: #fff;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.product-image{
+  max-width: 100%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.product-image:hover{
+  transform:scale(1.09);
+}
+.product-card h3{
+  font-size: 18px;
+  margin:0;
+  font-weight: 600;
+  text-align: left;
+  color:#848383;
+}
+.product-card p{
+  font-size: 20px;
+  font-weight: 600;
+  color:#9893fb;
+  text-align: left;
+}
+
+/*Media Queries para pantallas pequeñas*/
+@media ( max-width:1024px ){
+.filters-category{
+  display:flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.options{
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+.sort-options{
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+.sort-options select{
+  width:100%;
+}
+.products{
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+}
+
+@media (max-width: 768px){
+  .filters{
+    width:100%;
+    margin-bottom: 1rem;
+  }
+  .filter-category, .filter-type{
+    width:100%;
+    margin-bottom: 20px;
+  }
+  .product-card h3{
+    font-size:14px;
+  }
+  .product-card p{
+    font-size:18px;
+  }
+  .products{
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  }
+  .product-card{
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px){
+  .filters{
+    width: 100%;
+  }
+  .filter-category,.filter-type{
+    width:100%;
+  }
+  .products{
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  }
+  .product-card h3{
+    font-size: 12px;
+  }
+  .product-card p{
+    font-size: 16px;
+  }
+  .product-card{
+    padding: 8px;;
+  }
 }
