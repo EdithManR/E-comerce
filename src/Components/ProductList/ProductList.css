@@ -76,6 +76,13 @@ input[type="checkbox"]{
   border:1px solid #ddd;
   margin: 10px 0px;
 }
+
+.no-results{
+  font-size: 30px;
+  font-weight: 300;
+  text-align: center;
+  margin-top: 40px;
+}
 /*Productos*/
 .products{
   display:grid;

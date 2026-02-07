@@ -4,6 +4,8 @@ import './ProductList.css';
 const ProductList = () => {
   const [productos, setProductos] = useState([]);
   const [error, setError]= useState(null);
+  const [orden, setOrden]= useState('Relevantes');
+  const [filtros, setFiltros]= useState({ categorias:[], tipos:[]});
 
   useEffect(()=>{
       const fetchProducts = async ()=>{
@@ -21,6 +23,35 @@ const ProductList = () => {
       fetchProducts();
   }, []);
 
+  const toggleFiltros = (tipoFiltro, valor) => {
+    setFiltros((prev) => ({
+      ...prev,
+      [tipoFiltro]:prev[tipoFiltro].includes(valor) 
+      ? prev[tipoFiltro].filter((item) => item !== valor)
+      : [...prev[tipoFiltro], valor]
+    }))
+  }
+  const productosFiltrados = productos.filter((producto)=>{
+    const matchCategoria = 
+    filtros.categorias.length === 0 || filtros.categorias.includes(producto.categoria);
+    const matchTipo = 
+    filtros.tipos.length === 0 || filtros.tipos.includes(producto.tipo);
+    return matchCategoria && matchTipo;
+  })
+  const handleOrderChange = (e) => {
+    setOrden(e.target.value)
+  }
+  //Ordena los productos de mayor a menor y de menor a mayor precio
+  const productosOrdenados =[...productosFiltrados].sort((a,b)=>{
+    if (orden ==="Precio: Menor a mayor"){
+      return a.precio - b.precio
+    }if (orden ==="Precio: Mayor a menor"){
+      return b.precio - a.precio
+    }
+    return 0;
+  })
+
+
   return(
     <section className="main-content">
       <aside className="filters">
@@ -29,30 +60,31 @@ const ProductList = () => {
             <div className="filter-category">
               <h3>Categorias</h3>
               <label >
-                <input type="checkbox" />
+                <input type="checkbox" 
+                onChange={()=> toggleFiltros("categorias", "Hombres")}/>
                 <span>Hombres</span>
               </label>
               <label >
-                <input type="checkbox" />
+                <input type="checkbox" onChange={()=> toggleFiltros("categorias", "Mujeres")}/>
                 <span>Mujeres</span>
               </label>
               <label >
-                <input type="checkbox" />
+                <input type="checkbox" onChange={()=> toggleFiltros("categorias", "Niños")}/>
                 <span>Niños</span>
               </label>
             </div>
             <div className="filter-category">
               <h3>Tipos</h3>
               <label >
-                <input type="checkbox" />
+                <input type="checkbox" onChange={()=> toggleFiltros("tipos", "Prendas de abrigo")}/>
                 <span>Prendas de abrigo</span>
               </label>
               <label >
-                <input type="checkbox" />
+                <input type="checkbox"  onChange={()=> toggleFiltros("tipos", "Ropa interior")}/>
                 <span>Ropa interior</span>
               </label>
               <label >
-                <input type="checkbox" />
+                <input type="checkbox" onChange={()=> toggleFiltros("tipos", "Calzado")} />
                 <span>Calzado</span>
               </label>
             </div>
@@ -64,7 +96,7 @@ const ProductList = () => {
           <div className="sort-options">
             <label>
               Ordenar por:  
-              <select>
+              <select onChange={handleOrderChange} value = {orden}>
                 <option>Relevantes</option>
                 <option>Precio: Mayor a menor</option>
                 <option>Precio: Menor a mayor</option>
@@ -76,8 +108,8 @@ const ProductList = () => {
           {
             error ? (
               <p className="error-message">{error}</p>
-            ) : (
-              productos.map((producto)=>(
+            ) : productosFiltrados.length > 0 ? (
+              productosOrdenados.map((producto)=>(
                 <div className="product-card" key={producto.id}> 
                   <img src={producto.image} alt={producto.image}
                   className="product-image"/>
@@ -85,7 +117,11 @@ const ProductList = () => {
                   <p>{producto.precio}</p>
                 </div>
               ))
-            ) 
+            ) : (
+              <p className="no-results">
+                No hay productos que coincidan con los filtros seleccionados
+              </p>
+            )
           }
         </div>
       </main>
